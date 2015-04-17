@@ -8,6 +8,12 @@ enum Direction
     DIRECTION_DOWN
 };
 
+enum Mode
+{
+    MODE_MOUSE,
+    MODE_RANDOM
+};
+
 int main ( int argc, char* argv[] )
 {
     SDL_Event e;
@@ -39,6 +45,7 @@ int main ( int argc, char* argv[] )
                 );
     int size = 20;
     bool render = false;
+    Mode mode = MODE_MOUSE;
 
     while ( ! quit )
     {
@@ -68,30 +75,46 @@ int main ( int argc, char* argv[] )
                     blue =  rand() % 256;
                     alpha = 255;
                     break;
+
+                case SDLK_m:
+                    {
+                        if ( mode == MODE_RANDOM ) mode = MODE_MOUSE;
+                        else mode = MODE_RANDOM;
+                    }
                 }
             }
             else if ( e.type == SDL_MOUSEBUTTONDOWN )
             {
                 if ( e.button.button == SDL_BUTTON_LEFT )
                     render = true;
+                break;
             }
             else if ( e.type == SDL_MOUSEBUTTONUP )
             {
                 if ( e.button.button == SDL_BUTTON_LEFT )
                     render = false;
+                break;
             }
         }
 
         int x, y;
         SDL_GetMouseState(&x, &y);
 
-        SDL_Rect newrectangle =
+        SDL_Rect newrectangle;
+
+        if ( mode == MODE_MOUSE )
         {
-            x,      // Align to cursor (horizontal)
-            y,      // Align to cursor (vertical)
-            size,   // Width
-            size    // Height
-        };
+            newrectangle.x = x;
+            newrectangle.y = y;
+        }
+        else
+        {
+            newrectangle.x = rand() % ( 800 + size ) - size;
+            newrectangle.y = rand() % ( 800 + size ) - size;
+        }
+
+            newrectangle.w = size;
+            newrectangle.h = size;
 
         // Check boundaries
         if ( red >= 255 )   red_d = DIRECTION_DOWN;
@@ -110,7 +133,7 @@ int main ( int argc, char* argv[] )
         if ( blue_d == DIRECTION_UP )   blue++;
 
         // Fill
-        if ( render )
+        if ( render || mode == MODE_RANDOM )
         {
             SDL_SetRenderDrawColor(
                         rend,
@@ -134,10 +157,6 @@ int main ( int argc, char* argv[] )
             SDL_RenderPresent( rend );
         }
     }
-
-
-
-
 
     return 0;
 }
