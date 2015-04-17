@@ -1,6 +1,9 @@
 #include <SDL.h>
 #include <ctime>
 #include <cstdlib>
+#include <sstream>
+using std::stringstream;
+using std::endl;
 
 enum Direction
 {
@@ -24,6 +27,30 @@ int main ( int argc, char* argv[] )
     SDL_Window *window = SDL_CreateWindow ( "Circles!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_HIDDEN );
     SDL_Renderer* rend = SDL_CreateRenderer ( window, -1, 0 );
     SDL_ShowWindow ( window );
+
+    // Explain user how this works.
+    stringstream instructions;
+    instructions << "Welcome to Circles!" << endl;
+    instructions << "You won't see any circles here." << endl << endl;
+
+    instructions << "There are two modes to play with:" << endl;
+    instructions << "\t1. Mouse mode (default)" << endl;
+    instructions << "\t2. Random mode" << endl;
+    instructions << "To switch between modes, press m" << endl << endl;
+
+    instructions << "Other options:" << endl;
+    instructions << "\t * Randomize color with r" << endl;
+    instructions << "\t * Change box size with numpad + and - " << endl;
+    instructions << "\t * Wonder why this exist - scratch back of head with hand" << endl << endl;
+
+    instructions  << "Have fun!";
+
+    SDL_ShowSimpleMessageBox(
+                SDL_MESSAGEBOX_INFORMATION,
+                "Instructions",
+                instructions.str().c_str(),
+                window
+                );
 
     //Initial black screen
     SDL_SetRenderDrawColor ( rend, 0, 0, 0, 255);
@@ -87,13 +114,11 @@ int main ( int argc, char* argv[] )
             {
                 if ( e.button.button == SDL_BUTTON_LEFT )
                     render = true;
-                break;
             }
             else if ( e.type == SDL_MOUSEBUTTONUP )
             {
                 if ( e.button.button == SDL_BUTTON_LEFT )
                     render = false;
-                break;
             }
         }
 
