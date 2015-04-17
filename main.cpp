@@ -37,6 +37,8 @@ int main ( int argc, char* argv[] )
                 blue,
                 alpha
                 );
+    int size = 20;
+    bool render = false;
 
     while ( ! quit )
     {
@@ -44,8 +46,40 @@ int main ( int argc, char* argv[] )
         {
             if ( e.type == SDL_QUIT )
                 quit = true;
-            else if ( e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE )
-                quit = true;
+            else if ( e.type == SDL_KEYDOWN )
+            {
+                switch ( e.key.keysym.sym )
+                {
+                case SDLK_ESCAPE:
+                    quit = true;
+                    break;
+
+                case SDLK_KP_PLUS:
+                    size+=5;
+                    break;
+
+                case SDLK_KP_MINUS:
+                    size-=5;
+                    break;
+
+                case SDLK_r:
+                    red =   rand() % 256;
+                    green = rand() % 256;
+                    blue =  rand() % 256;
+                    alpha = 255;
+                    break;
+                }
+            }
+            else if ( e.type == SDL_MOUSEBUTTONDOWN )
+            {
+                if ( e.button.button == SDL_BUTTON_LEFT )
+                    render = true;
+            }
+            else if ( e.type == SDL_MOUSEBUTTONUP )
+            {
+                if ( e.button.button == SDL_BUTTON_LEFT )
+                    render = false;
+            }
         }
 
         int x, y;
@@ -54,9 +88,9 @@ int main ( int argc, char* argv[] )
         SDL_Rect newrectangle =
         {
             x,      // Align to cursor (horizontal)
-            y,     // Align to cursor (vertical)
-            20,     // Width
-            20      // Height
+            y,      // Align to cursor (vertical)
+            size,   // Width
+            size    // Height
         };
 
         // Check boundaries
@@ -76,26 +110,29 @@ int main ( int argc, char* argv[] )
         if ( blue_d == DIRECTION_UP )   blue++;
 
         // Fill
-        SDL_SetRenderDrawColor(
-                    rend,
-                    red,
-                    green,
-                    blue,
-                    alpha
-                    );
-        SDL_RenderFillRect ( rend, &newrectangle );
+        if ( render )
+        {
+            SDL_SetRenderDrawColor(
+                        rend,
+                        red,
+                        green,
+                        blue,
+                        alpha
+                        );
+            SDL_RenderFillRect ( rend, &newrectangle );
 
-        // Outline
-        SDL_SetRenderDrawColor(
-                    rend,
-                    0,
-                    0,
-                    0,
-                    255
-                    );
-        SDL_RenderDrawRect ( rend, &newrectangle );
+            // Outline
+            SDL_SetRenderDrawColor(
+                        rend,
+                        0,
+                        0,
+                        0,
+                        255
+                        );
+            SDL_RenderDrawRect ( rend, &newrectangle );
 
-        SDL_RenderPresent( rend );
+            SDL_RenderPresent( rend );
+        }
     }
 
 
