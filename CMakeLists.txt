@@ -55,9 +55,9 @@ find_package ( SDL2 REQUIRED )
 # ------------------------------ Build ------------------------------
 
 # Create the game that will blow away the critics and revolutionize the industry.
-add_executable ( batty-blast ${SOURCES})
+add_executable ( circles ${SOURCES})
 target_link_libraries (
-    batty-blast
+    circles
     ${MINGW32_LIBRARY}
     ${SDL2MAIN_LIB}
     ${SDL2_DIR_LIB}
