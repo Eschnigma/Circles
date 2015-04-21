@@ -143,11 +143,11 @@ int main ( int argc, char* argv[] )
 
         // Check boundaries
         if ( red >= 255 )   red_d = DIRECTION_DOWN;
-        if ( red >= 0 )     red_d = DIRECTION_UP;
+        if ( red <= 0 )     red_d = DIRECTION_UP;
         if ( green >= 255 ) green_d = DIRECTION_DOWN;
-        if ( green >= 0 )   green_d = DIRECTION_UP;
+        if ( green <= 0 )   green_d = DIRECTION_UP;
         if ( blue >= 255 )  blue_d = DIRECTION_DOWN;
-        if ( blue >= 0 )    blue_d = DIRECTION_UP;
+        if ( blue <= 0 )    blue_d = DIRECTION_UP;
 
         // Recolorize
         if ( red_d == DIRECTION_DOWN )  red--;
