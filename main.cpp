@@ -1,8 +1,10 @@
 #include <SDL.h>
+#include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <sstream>
 using std::stringstream;
+using std::cout;
 using std::endl;
 
 enum Direction
@@ -108,6 +110,15 @@ int main ( int argc, char* argv[] )
                         if ( mode == MODE_RANDOM ) mode = MODE_MOUSE;
                         else mode = MODE_RANDOM;
                     }
+                    break;
+
+                case SDLK_p:
+                    cout << "Current color makeup:\n";
+                    cout << "Red: " << red << endl;
+                    cout << "Green: " << green << endl;
+                    cout << "Blue: " << blue << endl;
+                    cout << endl;
+                    break;
                 }
             }
             else if ( e.type == SDL_MOUSEBUTTONDOWN )
