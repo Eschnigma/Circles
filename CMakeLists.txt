@@ -56,9 +56,25 @@ find_package ( SDL2 REQUIRED )
 
 # Create the game that will blow away the critics and revolutionize the industry.
 add_executable ( circles ${SOURCES})
+
+if ( MINGW32_LIBRARY )
+    set ( LINKED_LIBS
+        ${MINGW32_LIBRARY}
+    )
+endif ( MINGW32_LIBRARY )
+
+if ( SDL2MAIN_LIB )
+    set ( LINKED_LIBS ${LINKED_LIBS}
+        ${SDL2MAIN_LIB}
+    )
+endif ( SDL2MAIN_LIB )
+
+set ( LINKED_LIBS ${LINKED_LIBS}
+    ${SDL2_DIR_LIB}
+)
+
+
 target_link_libraries (
     circles
-    ${MINGW32_LIBRARY}
-    ${SDL2MAIN_LIB}
-    ${SDL2_DIR_LIB}
+    ${LINKED_LIBS}
 )
